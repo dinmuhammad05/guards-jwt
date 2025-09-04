@@ -49,14 +49,14 @@ export class UsersService {
     return getSuccessRes({});
   }
 
-  async signin(id: number) {
-    const user = await this.userRepo.findOne({ where: { id } });
-    if (!user) {
-      throw new Error('User not found');
-    }
+async signin(body: any) {
+    // body ichidan to'g'ridan-to'g'ri token yaratamiz
+    const token = await generateToken({...body});
 
-    const token = await generateToken({ id: user.id, role: user.role });
-
-    return getSuccessRes({ user, token });
+    return {
+      success: true,
+      message: 'Token created successfully',
+      data: { token },
+    };
   }
 }

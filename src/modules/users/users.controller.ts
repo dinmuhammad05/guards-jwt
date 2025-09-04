@@ -16,6 +16,7 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { ApiBody } from '@nestjs/swagger';
+import { SigninDto } from './dto/signin-user.dto';
 
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('users')
@@ -51,10 +52,10 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
   @Roles('public')
   @Post('signin')
-  @ApiBody({})
-  async signin(@Body() body: { id: number }) {
-    return this.usersService.signin(+body.id);
+  async signin(@Body() body: SigninDto) {
+    return this.usersService.signin(body);
   }
 }
